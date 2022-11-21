@@ -1,0 +1,41 @@
+[package]
+name = "signature_bls"
+version = "1.0.0"
+authors = ["Michael Lodder <redmike7@gmail.com>"]
+edition = "2021"
+license = "Apache-2.0"
+homepage = "https://github.com/cryptidtech/signature_bls"
+repository = "https://github.com/cryptidtech/signature_bls"
+readme = "README.md"
+categories = [
+    "cryptography",
+    "asynchronous",
+    "authentication",
+    "no-std",
+    "algorithms",
+]
+keywords = ["crypto", "signature", "signing", "bls"]
+description = """The Cryptid BLS signature impementation.
+"""
+publish = true
+rust-version = "1.65.0"
+
+[features]
+default = ["alloc"]
+alloc = []
+
+[dependencies]
+bls12_381_plus = "0.5.3"
+ff = { version = "0.12", default-features = false }
+group = "0.12"
+hkdf = { version = "0.11", default-features = false }
+pairing = "0.22"
+rand_core = "0.6"
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+sha2 = { version = "0.9", default-features = false }
+subtle = { version = "2.4", default-features = false }
+vsss-rs = { version = "1.5.0", default-features = false }
+zeroize = { version = "1.4.2", features = ["zeroize_derive"] }
+
+[dev-dependencies]
+rand_xorshift = "0.3"
