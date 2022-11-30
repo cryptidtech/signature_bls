@@ -13,11 +13,11 @@ use subtle::{Choice, CtOption};
 
 /// A proof of possession of the secret key
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct ProofOfPossession(pub(crate) G1Projective);
+pub struct ProofOfPossession(pub G1Projective);
 
 impl Default for ProofOfPossession {
     fn default() -> Self {
-        Self(G1Projective::identity())
+        Self(G1Projective::IDENTITY)
     }
 }
 

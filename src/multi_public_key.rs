@@ -10,11 +10,11 @@ use subtle::{Choice, CtOption};
 
 /// Represents multiple public keys into one that can be used to verify multisignatures
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct MultiPublicKey(pub(crate) G2Projective);
+pub struct MultiPublicKey(pub G2Projective);
 
 impl From<&[PublicKey]> for MultiPublicKey {
     fn from(keys: &[PublicKey]) -> Self {
-        let mut g = G2Projective::identity();
+        let mut g = G2Projective::IDENTITY;
         for k in keys {
             g += k.0;
         }
@@ -30,7 +30,7 @@ impl Display for MultiPublicKey {
 
 impl Default for MultiPublicKey {
     fn default() -> Self {
-        Self(G2Projective::identity())
+        Self(G2Projective::IDENTITY)
     }
 }
 

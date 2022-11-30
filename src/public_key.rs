@@ -14,7 +14,7 @@ pub struct PublicKey(pub G2Projective);
 
 impl Default for PublicKey {
     fn default() -> Self {
-        Self(G2Projective::identity())
+        Self(G2Projective::IDENTITY)
     }
 }
 
@@ -26,7 +26,7 @@ impl Display for PublicKey {
 
 impl From<&SecretKey> for PublicKey {
     fn from(s: &SecretKey) -> Self {
-        Self(G2Projective::generator() * s.0)
+        Self(G2Projective::GENERATOR * s.0)
     }
 }
 

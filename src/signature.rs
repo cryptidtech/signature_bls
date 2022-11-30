@@ -15,7 +15,7 @@ use vsss_rs::{Error, Shamir, Share};
 
 /// Represents a BLS signature in G1 using the proof of possession scheme
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct Signature(pub(crate) G1Projective);
+pub struct Signature(pub G1Projective);
 
 impl Display for Signature {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -25,7 +25,7 @@ impl Display for Signature {
 
 impl Default for Signature {
     fn default() -> Self {
-        Self(G1Projective::identity())
+        Self(G1Projective::IDENTITY)
     }
 }
 

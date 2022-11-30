@@ -10,11 +10,11 @@ use subtle::{Choice, CtOption};
 
 /// Represents a BLS SignatureVt in G1 for multiple SignatureVts that signed the same message
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct MultiSignatureVt(pub(crate) G2Projective);
+pub struct MultiSignatureVt(pub G2Projective);
 
 impl Default for MultiSignatureVt {
     fn default() -> Self {
-        Self(G2Projective::identity())
+        Self(G2Projective::IDENTITY)
     }
 }
 
@@ -26,7 +26,7 @@ impl Display for MultiSignatureVt {
 
 impl From<&[SignatureVt]> for MultiSignatureVt {
     fn from(sigs: &[SignatureVt]) -> Self {
-        let mut g = G2Projective::identity();
+        let mut g = G2Projective::IDENTITY;
         for s in sigs {
             g += s.0;
         }

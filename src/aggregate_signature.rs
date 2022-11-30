@@ -10,7 +10,7 @@ use subtle::{Choice, CtOption};
 
 /// Represents a BLS signature in G1 for multiple signatures that signed the different messages
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct AggregateSignature(pub(crate) G1Projective);
+pub struct AggregateSignature(pub G1Projective);
 
 impl Display for AggregateSignature {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -20,13 +20,13 @@ impl Display for AggregateSignature {
 
 impl Default for AggregateSignature {
     fn default() -> Self {
-        Self(G1Projective::identity())
+        Self(G1Projective::IDENTITY)
     }
 }
 
 impl From<&[Signature]> for AggregateSignature {
     fn from(sigs: &[Signature]) -> Self {
-        let mut g = G1Projective::identity();
+        let mut g = G1Projective::IDENTITY;
         for s in sigs {
             g += s.0;
         }

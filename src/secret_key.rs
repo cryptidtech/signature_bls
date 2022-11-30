@@ -17,7 +17,7 @@ pub struct SecretKey(pub Scalar);
 
 impl Default for SecretKey {
     fn default() -> Self {
-        Self(Scalar::zero())
+        Self(Scalar::ZERO)
     }
 }
 
@@ -121,10 +121,10 @@ fn generate_secret_key(ikm: &[u8]) -> Option<SecretKey> {
     const SALT: &[u8] = b"BLS-SIG-KEYGEN-SALT-";
     const INFO: [u8; 2] = [0u8, 48u8];
 
-    let mut extracter = HkdfExtract::<sha2::Sha256>::new(Some(SALT));
-    extracter.input_ikm(ikm);
-    extracter.input_ikm(&[0u8]);
-    let (_, h) = extracter.finalize();
+    let mut extractor = HkdfExtract::<sha2::Sha256>::new(Some(SALT));
+    extractor.input_ikm(ikm);
+    extractor.input_ikm(&[0u8]);
+    let (_, h) = extractor.finalize();
 
     let mut output = [0u8; 48];
     if h.expand(&INFO, &mut output).is_err() {

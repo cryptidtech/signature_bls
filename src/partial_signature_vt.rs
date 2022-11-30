@@ -11,7 +11,7 @@ use vsss_rs::Share;
 
 /// Represents a BLS partial signature in G2 using the proof of possession scheme
 #[derive(Clone, Copy, Debug, Default)]
-pub struct PartialSignatureVt(pub(crate) Share<PARTIAL_SIGNATURE_VT_BYTES>);
+pub struct PartialSignatureVt(pub Share<PARTIAL_SIGNATURE_VT_BYTES>);
 
 impl Display for PartialSignatureVt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

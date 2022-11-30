@@ -14,7 +14,7 @@ pub struct PublicKeyVt(pub G1Projective);
 
 impl Default for PublicKeyVt {
     fn default() -> Self {
-        Self(G1Projective::identity())
+        Self(G1Projective::IDENTITY)
     }
 }
 
@@ -26,7 +26,7 @@ impl Display for PublicKeyVt {
 
 impl From<&SecretKey> for PublicKeyVt {
     fn from(s: &SecretKey) -> Self {
-        Self(G1Projective::generator() * s.0)
+        Self(G1Projective::GENERATOR * s.0)
     }
 }
 
