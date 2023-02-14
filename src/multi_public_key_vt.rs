@@ -53,6 +53,12 @@ impl<'de> Deserialize<'de> for MultiPublicKeyVt {
     }
 }
 
+impl subtle::ConditionallySelectable for MultiPublicKeyVt {
+    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
+        Self(G1Projective::conditional_select(&a.0, &b.0, choice))
+    }
+}
+
 impl MultiPublicKeyVt {
     /// Number of bytes needed to represent the multi public key
     pub const BYTES: usize = 48;

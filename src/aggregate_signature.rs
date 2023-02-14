@@ -53,6 +53,12 @@ impl<'de> Deserialize<'de> for AggregateSignature {
     }
 }
 
+impl subtle::ConditionallySelectable for AggregateSignature {
+    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
+        Self(G1Projective::conditional_select(&a.0, &b.0, choice))
+    }
+}
+
 impl AggregateSignature {
     /// Number of bytes needed to represent the signature
     pub const BYTES: usize = 48;

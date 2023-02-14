@@ -46,6 +46,12 @@ impl<'de> Deserialize<'de> for ProofOfPossessionVt {
     }
 }
 
+impl subtle::ConditionallySelectable for ProofOfPossessionVt {
+    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
+        Self(G2Projective::conditional_select(&a.0, &b.0, choice))
+    }
+}
+
 impl ProofOfPossessionVt {
     /// Number of bytes needed to represent the proof
     pub const BYTES: usize = 96;

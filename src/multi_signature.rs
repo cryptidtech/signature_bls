@@ -53,6 +53,12 @@ impl<'de> Deserialize<'de> for MultiSignature {
     }
 }
 
+impl subtle::ConditionallySelectable for MultiSignature {
+    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
+        Self(G1Projective::conditional_select(&a.0, &b.0, choice))
+    }
+}
+
 impl MultiSignature {
     /// Number of bytes needed to represent the signature
     pub const BYTES: usize = 48;
