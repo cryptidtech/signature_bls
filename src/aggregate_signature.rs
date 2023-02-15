@@ -52,7 +52,7 @@ impl AggregateSignature {
                 let a = Signature::hash_msg(msg.as_ref());
                 res += pairing(&a.to_affine(), &key.0.to_affine());
             }
-            res += pairing(&sig.to_affine(), &G2Affine::generator().neg());
+            res += pairing(&sig.to_affine(), &-G2Affine::generator());
             res.is_identity()
         }
         #[cfg(feature = "alloc")]

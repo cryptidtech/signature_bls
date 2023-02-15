@@ -52,7 +52,7 @@ impl AggregateSignatureVt {
                 let a = SignatureVt::hash_msg(msg.as_ref());
                 res += pairing(&key.0.to_affine(), &a.to_affine());
             }
-            res += pairing(&G1Affine::generator().neg(), &sig.to_affine());
+            res += pairing(&-G1Affine::generator(), &sig.to_affine());
             res.is_identity()
         }
         #[cfg(any(feature = "alloc", feature = "std"))]
