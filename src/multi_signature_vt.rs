@@ -1,9 +1,6 @@
 use crate::{MultiPublicKeyVt, PublicKeyVt, SignatureVt};
 use bls12_381_plus::{G2Affine, G2Projective};
-use core::{
-    fmt::{self, Display},
-    ops::{BitOr, Not},
-};
+use core::fmt::{self, Display};
 use group::Curve;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
@@ -65,12 +62,12 @@ impl MultiSignatureVt {
 
     /// Check if this signature is valid
     pub fn is_valid(&self) -> Choice {
-        self.0.is_identity().not().bitor(self.0.is_on_curve())
+        !self.0.is_identity() | self.0.is_on_curve()
     }
 
     /// Check if this signature is invalid
     pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity().bitor(self.0.is_on_curve().not())
+        self.0.is_identity() | !self.0.is_on_curve()
     }
 
     /// Verify this multi SignatureVt is over `msg` with the multi public key

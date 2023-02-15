@@ -2,10 +2,7 @@ use crate::{PublicKey, SecretKey};
 use bls12_381_plus::{
     multi_miller_loop, ExpandMsgXmd, G1Affine, G1Projective, G2Affine, G2Prepared,
 };
-use core::{
-    fmt::{self, Display},
-    ops::Neg,
-};
+use core::fmt::{self, Display};
 use ff::Field;
 use group::{Curve, Group};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -74,7 +71,7 @@ impl ProofOfPossession {
             return Choice::from(0);
         }
         let a = G1Projective::hash::<ExpandMsgXmd<sha2::Sha256>>(&pk.to_bytes(), Self::DST);
-        let g2 = G2Affine::generator().neg();
+        let g2 = -G2Affine::generator();
 
         multi_miller_loop(&[
             (&a.to_affine(), &G2Prepared::from(pk.0.to_affine())),

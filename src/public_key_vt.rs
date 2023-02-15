@@ -1,9 +1,6 @@
 use super::SecretKey;
 use bls12_381_plus::{G1Affine, G1Projective};
-use core::{
-    fmt::{self, Display},
-    ops::{BitOr, Not},
-};
+use core::fmt::{self, Display};
 use group::Curve;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
@@ -73,12 +70,12 @@ impl PublicKeyVt {
 
     /// Check if this signature is valid
     pub fn is_valid(&self) -> Choice {
-        self.0.is_identity().not().bitor(self.0.is_on_curve())
+        !self.0.is_identity() | self.0.is_on_curve()
     }
 
     /// Check if this signature is invalid
     pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity().bitor(self.0.is_on_curve().not())
+        self.0.is_identity() | !self.0.is_on_curve()
     }
 
     /// Get the byte representation of this key

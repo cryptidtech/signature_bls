@@ -21,14 +21,16 @@ publish = true
 rust-version = "1.65.0"
 
 [features]
-default = ["alloc"]
+default = ["std"]
 alloc = []
+std = ["alloc", "iso8601-timestamp"]
 
 [dependencies]
 bls12_381_plus = "0.5.5"
 ff = { version = "0.12", default-features = false }
 group = "0.12"
 hkdf = { version = "0.11", default-features = false }
+iso8601-timestamp = { version = "0.2.10", optional = true }
 pairing = "0.22"
 rand_core = "0.6"
 serde = { version = "1.0", default-features = false, features = ["derive"] }

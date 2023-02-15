@@ -1,9 +1,6 @@
 use crate::{SecretKeyShare, Signature};
 use bls12_381_plus::{G1Affine, G1Projective, Scalar};
-use core::{
-    fmt::{self, Display},
-    ops::{BitOr, Not},
-};
+use core::fmt::{self, Display};
 use group::Curve;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::Choice;
@@ -82,7 +79,7 @@ impl PartialSignature {
     pub fn is_valid(&self) -> Choice {
         let t: [u8; 48] = <[u8; 48]>::try_from(self.0.value()).unwrap();
         let p = G1Affine::from_compressed(&t).map(G1Projective::from);
-        p.map(|v| v.is_identity().not().bitor(v.is_on_curve()))
+        p.map(|v| !v.is_identity() | v.is_on_curve())
             .unwrap_or_else(|| Choice::from(0u8))
     }
 
@@ -90,7 +87,7 @@ impl PartialSignature {
     pub fn is_invalid(&self) -> Choice {
         let t: [u8; 48] = <[u8; 48]>::try_from(self.0.value()).unwrap();
         let p = G1Affine::from_compressed(&t).map(G1Projective::from);
-        p.map(|v| v.is_identity().bitor(v.is_on_curve().not()))
+        p.map(|v| v.is_identity() | !v.is_on_curve())
             .unwrap_or_else(|| Choice::from(0u8))
     }
 

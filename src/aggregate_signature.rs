@@ -86,7 +86,7 @@ impl AggregateSignature {
         ) -> Choice {
             use bls12_381_plus::{pairing, Gt};
 
-            let mut res = Gt::identity();
+            let mut res = Gt::IDENTITY;
             for (key, msg) in data {
                 if key.is_invalid().unwrap_u8() == 1 {
                     return Choice::from(0u8);
@@ -102,7 +102,6 @@ impl AggregateSignature {
             sig: &G1Projective,
             data: &[(PublicKey, B)],
         ) -> Choice {
-            use alloc::vec::Vec;
             use bls12_381_plus::{multi_miller_loop, G2Prepared};
 
             if data.iter().any(|(k, _)| k.is_invalid().unwrap_u8() == 1) {
