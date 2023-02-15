@@ -1,6 +1,5 @@
 use crate::{SecretKeyShare, Signature};
 use bls12_381_plus::{G1Affine, G1Projective, Scalar};
-use core::fmt::{self, Display};
 use group::Curve;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::Choice;
@@ -10,14 +9,7 @@ use vsss_rs::Share;
 #[derive(Clone, Copy, Debug, Default)]
 pub struct PartialSignature(pub Share<PARTIAL_SIGNATURE_BYTES>);
 
-impl Display for PartialSignature {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for b in &self.0 .0 {
-            b.fmt(f)?;
-        }
-        Ok(())
-    }
-}
+display_size_impl!(PartialSignature, PARTIAL_SIGNATURE_BYTES);
 
 impl From<Share<PARTIAL_SIGNATURE_BYTES>> for PartialSignature {
     fn from(share: Share<PARTIAL_SIGNATURE_BYTES>) -> Self {
@@ -93,7 +85,7 @@ impl PartialSignature {
 
     /// Get the byte sequence that represents this partial signature
     pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0 .0
+        self.0.0
     }
 
     /// Convert a big-endian representation of the partial signature

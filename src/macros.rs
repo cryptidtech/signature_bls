@@ -68,3 +68,18 @@ macro_rules! display_one_impl {
         }
     };
 }
+
+macro_rules! display_size_impl {
+    ($name:ident, $size:expr) => {
+        impl core::fmt::Display for $name {
+            #[allow(unsafe_code)]
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+                const HEX_BYTES: usize = $size * 2;
+                let mut hex_bytes = [0u8; HEX_BYTES];
+                hex::encode_to_slice(&self.0 .0, &mut hex_bytes).unwrap();
+                let output = unsafe { core::str::from_utf8_unchecked(&hex_bytes) };
+                write!(f, "{}", output)
+            }
+        }
+    };
+}

@@ -1,6 +1,5 @@
 use crate::{SecretKeyShare, SignatureVt};
 use bls12_381_plus::{G2Affine, G2Projective, Scalar};
-use core::fmt::{self, Display};
 use group::Curve;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::Choice;
@@ -10,14 +9,7 @@ use vsss_rs::Share;
 #[derive(Clone, Copy, Debug, Default)]
 pub struct PartialSignatureVt(pub Share<PARTIAL_SIGNATURE_VT_BYTES>);
 
-impl Display for PartialSignatureVt {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for b in &self.0 .0 {
-            b.fmt(f)?;
-        }
-        Ok(())
-    }
-}
+display_size_impl!(PartialSignatureVt, PARTIAL_SIGNATURE_VT_BYTES);
 
 impl From<Share<PARTIAL_SIGNATURE_VT_BYTES>> for PartialSignatureVt {
     fn from(share: Share<PARTIAL_SIGNATURE_VT_BYTES>) -> Self {
