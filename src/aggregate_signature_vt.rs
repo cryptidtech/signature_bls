@@ -50,11 +50,7 @@ impl<'de> Deserialize<'de> for AggregateSignatureVt {
     }
 }
 
-impl subtle::ConditionallySelectable for AggregateSignatureVt {
-    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
-        Self(G2Projective::conditional_select(&a.0, &b.0, choice))
-    }
-}
+cond_select_impl!(AggregateSignatureVt, G2Projective);
 
 impl AggregateSignatureVt {
     /// Number of bytes needed to represent the signature
@@ -109,10 +105,7 @@ impl AggregateSignatureVt {
                 })
                 .collect::<Vec<(G1Affine, G2Prepared)>>();
 
-            data.push((
-                -G1Affine::generator(),
-                G2Prepared::from(sig.to_affine()),
-            ));
+            data.push((-G1Affine::generator(), G2Prepared::from(sig.to_affine())));
             // appease borrow checker
             let t = data
                 .iter()

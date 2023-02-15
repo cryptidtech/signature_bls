@@ -26,14 +26,12 @@ impl ConditionallySelectable for ProofOfKnowledge {
 impl ProofOfKnowledge {
     /// Check if this is valid
     pub fn is_valid(&self) -> Choice {
-        !self.u.is_identity() | self.u.is_on_curve() |
-            !self.v.is_identity() | self.v.is_on_curve()
+        !self.u.is_identity() | self.u.is_on_curve() | !self.v.is_identity() | self.v.is_on_curve()
     }
 
     /// Check if this is invalid
     pub fn is_invalid(&self) -> Choice {
-        self.u.is_identity() | !self.u.is_on_curve() |
-            self.v.is_identity() | !self.v.is_on_curve()
+        self.u.is_identity() | !self.u.is_on_curve() | self.v.is_identity() | !self.v.is_on_curve()
     }
 
     /// Verify the proof of knowledge

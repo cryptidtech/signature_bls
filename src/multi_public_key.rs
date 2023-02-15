@@ -50,11 +50,7 @@ impl<'de> Deserialize<'de> for MultiPublicKey {
     }
 }
 
-impl subtle::ConditionallySelectable for MultiPublicKey {
-    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
-        Self(G2Projective::conditional_select(&a.0, &b.0, choice))
-    }
-}
+cond_select_impl!(MultiPublicKey, G2Projective);
 
 impl MultiPublicKey {
     /// Number of bytes needed to represent the multi public key

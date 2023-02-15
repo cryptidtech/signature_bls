@@ -1,5 +1,5 @@
 use crate::{PublicKeyVt, SignatureVt};
-use bls12_381_plus::{multi_miller_loop, G2Projective, G1Affine, G2Prepared, Scalar};
+use bls12_381_plus::{multi_miller_loop, G1Affine, G2Prepared, G2Projective, Scalar};
 use ff::Field;
 use group::{Curve, Group};
 use serde::{Deserialize, Serialize};
@@ -26,14 +26,12 @@ impl ConditionallySelectable for ProofOfKnowledgeVt {
 impl ProofOfKnowledgeVt {
     /// Check if this is valid
     pub fn is_valid(&self) -> Choice {
-        !self.u.is_identity() | self.u.is_on_curve() |
-            !self.v.is_identity() | self.v.is_on_curve()
+        !self.u.is_identity() | self.u.is_on_curve() | !self.v.is_identity() | self.v.is_on_curve()
     }
 
     /// Check if this is invalid
     pub fn is_invalid(&self) -> Choice {
-        self.u.is_identity() | !self.u.is_on_curve() |
-            self.v.is_identity() | !self.v.is_on_curve()
+        self.u.is_identity() | !self.u.is_on_curve() | self.v.is_identity() | !self.v.is_on_curve()
     }
 
     /// Verify the proof of knowledge
@@ -50,7 +48,7 @@ impl ProofOfKnowledgeVt {
 
         multi_miller_loop(&[
             (&g1, &G2Prepared::from(self.v.to_affine())),
-            (&pk.0.to_affine(), &G2Prepared::from(uay.to_affine()))
+            (&pk.0.to_affine(), &G2Prepared::from(uay.to_affine())),
         ])
         .final_exponentiation()
         .is_identity()

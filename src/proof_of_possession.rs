@@ -43,11 +43,7 @@ impl<'de> Deserialize<'de> for ProofOfPossession {
     }
 }
 
-impl subtle::ConditionallySelectable for ProofOfPossession {
-    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
-        Self(G1Projective::conditional_select(&a.0, &b.0, choice))
-    }
-}
+cond_select_impl!(ProofOfPossession, G1Projective);
 
 impl ProofOfPossession {
     /// Number of bytes needed to represent the proof

@@ -58,11 +58,7 @@ impl<'de> Deserialize<'de> for PublicKey {
     }
 }
 
-impl subtle::ConditionallySelectable for PublicKey {
-    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
-        Self(G2Projective::conditional_select(&a.0, &b.0, choice))
-    }
-}
+cond_select_impl!(PublicKey, G2Projective);
 
 impl PublicKey {
     /// Number of bytes needed to represent the public key

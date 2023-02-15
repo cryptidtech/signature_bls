@@ -1,5 +1,5 @@
 use crate::partial_signature_vt::PARTIAL_SIGNATURE_VT_BYTES;
-use crate::{PartialSignatureVt, PublicKeyVt, ProofOfKnowledgeVt, SecretKey};
+use crate::{PartialSignatureVt, ProofOfKnowledgeVt, PublicKeyVt, SecretKey};
 use bls12_381_plus::{
     multi_miller_loop, ExpandMsgXmd, G1Affine, G2Affine, G2Prepared, G2Projective, Scalar,
 };
@@ -45,11 +45,7 @@ impl<'de> Deserialize<'de> for SignatureVt {
     }
 }
 
-impl subtle::ConditionallySelectable for SignatureVt {
-    fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
-        Self(G2Projective::conditional_select(&a.0, &b.0, choice))
-    }
-}
+cond_select_impl!(SignatureVt, G2Projective);
 
 impl SignatureVt {
     /// Number of bytes needed to represent the SignatureVt

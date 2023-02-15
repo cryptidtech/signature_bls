@@ -25,3 +25,13 @@ macro_rules! bytes_impl {
         }
     };
 }
+
+macro_rules! cond_select_impl {
+    ($name:ident, $projective:ident) => {
+        impl subtle::ConditionallySelectable for $name {
+            fn conditional_select(a: &Self, b: &Self, choice: Choice) -> Self {
+                Self($projective::conditional_select(&a.0, &b.0, choice))
+            }
+        }
+    };
+}
