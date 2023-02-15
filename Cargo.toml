@@ -42,3 +42,5 @@ zeroize = { version = "1.5", features = ["zeroize_derive"] }
 
 [dev-dependencies]
 rand_xorshift = "0.3"
+serde_bare = "0.5"
+serde_json = "1.0"

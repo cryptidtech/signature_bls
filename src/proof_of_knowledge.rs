@@ -157,3 +157,23 @@ fn proof_works() {
         assert_eq!(proof.verify(pk, msg, 2000).unwrap_u8(), 0u8);
     }
 }
+
+#[test]
+fn proof_serialization() {
+    use rand_core::SeedableRng;
+
+    let mut rng = crate::MockRng::from_seed([7u8; 16]);
+    let proof = ProofOfKnowledge { u: G1Projective::random(&mut rng), v: G1Projective::random(&mut rng ) };
+
+    let proof_bytes = serde_bare::to_vec(&proof).unwrap();
+    let res_de_proof = serde_bare::from_slice::<ProofOfKnowledge>(&proof_bytes);
+    assert!(res_de_proof.is_ok());
+    let de_proof = res_de_proof.unwrap();
+    assert_eq!(de_proof, proof);
+
+    let proof_str = serde_json::to_string(&proof).unwrap();
+    let res_de_proof = serde_json::from_str::<ProofOfKnowledge>(&proof_str);
+    assert!(res_de_proof.is_ok());
+    let de_proof = res_de_proof.unwrap();
+    assert_eq!(de_proof, proof);
+}
