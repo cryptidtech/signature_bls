@@ -6,14 +6,8 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// A BLS public key
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct PublicKeyVt(pub G1Projective);
-
-impl Default for PublicKeyVt {
-    fn default() -> Self {
-        Self(G1Projective::IDENTITY)
-    }
-}
 
 impl Display for PublicKeyVt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

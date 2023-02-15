@@ -11,18 +11,12 @@ use subtle::{Choice, CtOption};
 use vsss_rs::{Error, Shamir, Share};
 
 /// Represents a BLS signature in G1 using the proof of possession scheme
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct Signature(pub G1Projective);
 
 impl Display for Signature {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
-    }
-}
-
-impl Default for Signature {
-    fn default() -> Self {
-        Self(G1Projective::IDENTITY)
     }
 }
 

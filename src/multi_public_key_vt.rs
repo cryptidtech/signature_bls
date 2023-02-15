@@ -6,7 +6,7 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// Represents multiple public keys into one that can be used to verify multisignatures
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MultiPublicKeyVt(pub G1Projective);
 
 impl From<&[PublicKeyVt]> for MultiPublicKeyVt {
@@ -22,12 +22,6 @@ impl From<&[PublicKeyVt]> for MultiPublicKeyVt {
 impl Display for MultiPublicKeyVt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
-    }
-}
-
-impl Default for MultiPublicKeyVt {
-    fn default() -> Self {
-        Self(G1Projective::IDENTITY)
     }
 }
 

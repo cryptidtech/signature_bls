@@ -9,14 +9,8 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// A proof of possession of the secret key
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ProofOfPossessionVt(pub G2Projective);
-
-impl Default for ProofOfPossessionVt {
-    fn default() -> Self {
-        Self(G2Projective::IDENTITY)
-    }
-}
 
 impl Display for ProofOfPossessionVt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

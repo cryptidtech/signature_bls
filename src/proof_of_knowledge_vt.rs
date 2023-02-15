@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use subtle::{Choice, ConditionallySelectable};
 
 /// A signature proof of knowledge
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Deserialize, Serialize)]
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Deserialize, Serialize)]
 pub struct ProofOfKnowledgeVt {
     /// x \cdot A
     pub u: G2Projective,

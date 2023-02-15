@@ -11,18 +11,12 @@ use subtle::{Choice, CtOption};
 use vsss_rs::{Error, Shamir, Share};
 
 /// Represents a BLS SignatureVt in G1 using the proof of possession scheme
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct SignatureVt(pub G2Projective);
 
 impl Display for SignatureVt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
-    }
-}
-
-impl Default for SignatureVt {
-    fn default() -> Self {
-        Self(G2Projective::IDENTITY)
     }
 }
 

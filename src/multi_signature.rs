@@ -6,14 +6,8 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// Represents a BLS signature in G1 for multiple signatures that signed the same message
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MultiSignature(pub G1Projective);
-
-impl Default for MultiSignature {
-    fn default() -> Self {
-        Self(G1Projective::IDENTITY)
-    }
-}
 
 impl Display for MultiSignature {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
