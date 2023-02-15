@@ -62,15 +62,5 @@ impl MultiPublicKey {
 
     validity_checks!();
 
-    /// Get the byte representation of this key
-    pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0.to_affine().to_compressed()
-    }
-
-    /// Convert a big-endian representation of the multi public key
-    pub fn from_bytes(bytes: &[u8; Self::BYTES]) -> CtOption<Self> {
-        let mut t = [0u8; Self::BYTES];
-        t.copy_from_slice(bytes);
-        G2Affine::from_compressed(&t).map(|p| Self(G2Projective::from(&p)))
-    }
+    bytes_impl!(G2Affine, G2Projective);
 }

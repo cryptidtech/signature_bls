@@ -62,20 +62,10 @@ impl MultiSignature {
 
     validity_checks!();
 
+    bytes_impl!(G1Affine, G1Projective);
+
     /// Verify this multi signature is over `msg` with the multi public key
     pub fn verify<B: AsRef<[u8]>>(&self, public_key: MultiPublicKey, msg: B) -> Choice {
         Signature(self.0).verify(PublicKey(public_key.0), msg)
-    }
-
-    /// Get the byte sequence that represents this multisignature
-    pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0.to_affine().to_compressed()
-    }
-
-    /// Convert a big-endian representation of the multisignature
-    pub fn from_bytes(bytes: &[u8; Self::BYTES]) -> CtOption<Self> {
-        let mut t = [0u8; Self::BYTES];
-        t.copy_from_slice(bytes);
-        G1Affine::from_compressed(&t).map(|p| Self(G1Projective::from(&p)))
     }
 }

@@ -62,6 +62,8 @@ impl AggregateSignatureVt {
 
     validity_checks!();
 
+    bytes_impl!(G2Affine, G2Projective);
+
     /// Verify this multi signature is over `msg` with the multi public key
     pub fn verify<B: AsRef<[u8]>>(&self, data: &[(PublicKeyVt, B)]) -> Choice {
         if self.is_invalid().unwrap_u8() == 1 {
@@ -121,17 +123,5 @@ impl AggregateSignatureVt {
                 .is_identity()
         }
         core_aggregate_verify(&self.0, data)
-    }
-
-    /// Get the byte sequence that represents this aggregated signature
-    pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0.to_affine().to_compressed()
-    }
-
-    /// Convert a big-endian representation of the aggregated signature
-    pub fn from_bytes(bytes: &[u8; Self::BYTES]) -> CtOption<Self> {
-        let mut t = [0u8; Self::BYTES];
-        t.copy_from_slice(bytes);
-        G2Affine::from_compressed(&t).map(|p| Self(G2Projective::from(&p)))
     }
 }

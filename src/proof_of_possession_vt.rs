@@ -67,6 +67,8 @@ impl ProofOfPossessionVt {
 
     validity_checks!();
 
+    bytes_impl!(G2Affine, G2Projective);
+
     /// Verify if the proof is over `pk`
     pub fn verify(&self, pk: PublicKeyVt) -> Choice {
         if (self.is_invalid() | pk.is_invalid()).unwrap_u8() == 1 {
@@ -81,18 +83,6 @@ impl ProofOfPossessionVt {
         ])
         .final_exponentiation()
         .is_identity()
-    }
-
-    /// Get the byte sequence that represents this proof
-    pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0.to_affine().to_compressed()
-    }
-
-    /// Convert a big-endian representation of the proof
-    pub fn from_bytes(bytes: &[u8; Self::BYTES]) -> CtOption<Self> {
-        let mut t = [0u8; Self::BYTES];
-        t.copy_from_slice(bytes);
-        G2Affine::from_compressed(&t).map(|p| Self(G2Projective::from(&p)))
     }
 }
 

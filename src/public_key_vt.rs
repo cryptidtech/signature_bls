@@ -70,13 +70,5 @@ impl PublicKeyVt {
 
     validity_checks!();
 
-    /// Get the byte representation of this key
-    pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0.to_affine().to_compressed()
-    }
-
-    /// Convert a big-endian representation of the public key
-    pub fn from_bytes(bytes: &[u8; Self::BYTES]) -> CtOption<Self> {
-        G1Affine::from_compressed(bytes).map(|p| Self(G1Projective::from(&p)))
-    }
+    bytes_impl!(G1Affine, G1Projective);
 }

@@ -72,6 +72,8 @@ impl Signature {
 
     validity_checks!();
 
+    bytes_impl!(G1Affine, G1Projective);
+
     /// Verify if the bls is over `msg` with `pk`
     pub fn verify<B: AsRef<[u8]>>(&self, pk: PublicKey, msg: B) -> Choice {
         if (pk.0.is_identity() | self.is_invalid()).unwrap_u8() == 1 {
@@ -86,16 +88,6 @@ impl Signature {
         ])
         .final_exponentiation()
         .is_identity()
-    }
-
-    /// Get the byte sequence that represents this signature
-    pub fn to_bytes(self) -> [u8; Self::BYTES] {
-        self.0.to_affine().to_compressed()
-    }
-
-    /// Convert a big-endian representation of the signature
-    pub fn from_bytes(bytes: &[u8; Self::BYTES]) -> CtOption<Self> {
-        G1Affine::from_compressed(bytes).map(|p| Self(G1Projective::from(&p)))
     }
 
     /// Combine partial signatures into a completed signature
