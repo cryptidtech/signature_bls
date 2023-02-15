@@ -1,9 +1,6 @@
 use crate::{PublicKeyVt, SignatureVt};
 use bls12_381_plus::{G1Affine, G2Affine, G2Projective};
-use core::{
-    fmt::{self, Display},
-    ops::{BitOr, Neg, Not},
-};
+use core::fmt::{self, Display};
 use group::{Curve, Group};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
@@ -63,15 +60,7 @@ impl AggregateSignatureVt {
     /// Number of bytes needed to represent the signature
     pub const BYTES: usize = 96;
 
-    /// Check if this signature is valid
-    pub fn is_valid(&self) -> Choice {
-        self.0.is_identity().not().bitor(self.0.is_on_curve())
-    }
-
-    /// Check if this signature is invalid
-    pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity().bitor(self.0.is_on_curve().not())
-    }
+    validity_checks!();
 
     /// Verify this multi signature is over `msg` with the multi public key
     pub fn verify<B: AsRef<[u8]>>(&self, data: &[(PublicKeyVt, B)]) -> Choice {
@@ -119,7 +108,7 @@ impl AggregateSignatureVt {
                 .collect::<Vec<(G1Affine, G2Prepared)>>();
 
             data.push((
-                G1Affine::generator().neg(),
+                -G1Affine::generator(),
                 G2Prepared::from(sig.to_affine()),
             ));
             // appease borrow checker

@@ -24,15 +24,24 @@ impl ConditionallySelectable for ProofOfKnowledge {
 }
 
 impl ProofOfKnowledge {
+    /// Check if this is valid
+    pub fn is_valid(&self) -> Choice {
+        !self.u.is_identity() | self.u.is_on_curve() |
+            !self.v.is_identity() | self.v.is_on_curve()
+    }
+
+    /// Check if this is invalid
+    pub fn is_invalid(&self) -> Choice {
+        self.u.is_identity() | !self.u.is_on_curve() |
+            self.v.is_identity() | !self.v.is_on_curve()
+    }
+
     /// Verify the proof of knowledge
     pub fn verify<B: AsRef<[u8]>>(&self, pk: PublicKey, msg: B, y: Scalar) -> Choice {
-        if pk.is_invalid().unwrap_u8() == 1u8 {
+        if (self.is_invalid() | pk.is_invalid()).unwrap_u8() == 1u8 {
             return 0u8.into();
         }
         if y.is_zero().unwrap_u8() == 1u8 {
-            return 0u8.into();
-        }
-        if (self.u.is_identity() | self.v.is_identity()).unwrap_u8() == 1u8 {
             return 0u8.into();
         }
         let a = Signature::hash_msg(msg.as_ref());

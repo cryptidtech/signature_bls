@@ -60,15 +60,7 @@ impl MultiSignatureVt {
     /// Number of bytes needed to represent the SignatureVt
     pub const BYTES: usize = 96;
 
-    /// Check if this signature is valid
-    pub fn is_valid(&self) -> Choice {
-        !self.0.is_identity() | self.0.is_on_curve()
-    }
-
-    /// Check if this signature is invalid
-    pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity() | !self.0.is_on_curve()
-    }
+    validity_checks!();
 
     /// Verify this multi SignatureVt is over `msg` with the multi public key
     pub fn verify<B: AsRef<[u8]>>(&self, public_key: MultiPublicKeyVt, msg: B) -> Choice {

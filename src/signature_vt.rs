@@ -70,15 +70,7 @@ impl SignatureVt {
         G2Projective::hash::<ExpandMsgXmd<sha2::Sha256>>(msg, Self::DST)
     }
 
-    /// Check if this signature is valid
-    pub fn is_valid(&self) -> Choice {
-        !self.0.is_identity() | self.0.is_on_curve()
-    }
-
-    /// Check if this signature is invalid
-    pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity() | !self.0.is_on_curve()
-    }
+    validity_checks!();
 
     /// Verify if the bls is over `msg` with `pk`
     pub fn verify<B: AsRef<[u8]>>(&self, pk: PublicKeyVt, msg: B) -> Choice {

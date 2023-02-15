@@ -65,9 +65,11 @@ impl ProofOfPossession {
         Some(Self(a * sk.0))
     }
 
+    validity_checks!();
+
     /// Verify if the proof is over `pk`
     pub fn verify(&self, pk: PublicKey) -> Choice {
-        if pk.0.is_identity().unwrap_u8() == 1 {
+        if (self.is_invalid() | pk.is_invalid()).unwrap_u8() == 1 {
             return Choice::from(0);
         }
         let a = G1Projective::hash::<ExpandMsgXmd<sha2::Sha256>>(&pk.to_bytes(), Self::DST);

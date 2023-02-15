@@ -68,15 +68,7 @@ impl PublicKeyVt {
     /// Number of bytes needed to represent the public key
     pub const BYTES: usize = 48;
 
-    /// Check if this signature is valid
-    pub fn is_valid(&self) -> Choice {
-        !self.0.is_identity() | self.0.is_on_curve()
-    }
-
-    /// Check if this signature is invalid
-    pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity() | !self.0.is_on_curve()
-    }
+    validity_checks!();
 
     /// Get the byte representation of this key
     pub fn to_bytes(self) -> [u8; Self::BYTES] {

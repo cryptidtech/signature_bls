@@ -1,9 +1,6 @@
 use crate::{PublicKey, Signature};
 use bls12_381_plus::{G1Affine, G1Projective, G2Affine};
-use core::{
-    fmt::{self, Display},
-    ops::{BitOr, Neg, Not},
-};
+use core::fmt::{self, Display};
 use group::{Curve, Group};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
@@ -63,15 +60,7 @@ impl AggregateSignature {
     /// Number of bytes needed to represent the signature
     pub const BYTES: usize = 48;
 
-    /// Check if this signature is valid
-    pub fn is_valid(&self) -> Choice {
-        self.0.is_identity().not().bitor(self.0.is_on_curve())
-    }
-
-    /// Check if this signature is invalid
-    pub fn is_invalid(&self) -> Choice {
-        self.0.is_identity().bitor(self.0.is_on_curve().not())
-    }
+    validity_checks!();
 
     /// Verify this multi signature is over `msg` with the multi public key
     pub fn verify<B: AsRef<[u8]>>(&self, data: &[(PublicKey, B)]) -> Choice {
@@ -120,7 +109,7 @@ impl AggregateSignature {
 
             data.push((
                 sig.to_affine(),
-                G2Prepared::from(G2Affine::generator().neg()),
+                G2Prepared::from(-G2Affine::generator()),
             ));
             // appease borrow checker
             let t = data

@@ -28,6 +28,9 @@ extern crate core;
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+#[macro_use]
+mod macros;
+
 mod aggregate_signature;
 mod aggregate_signature_vt;
 mod multi_public_key;
