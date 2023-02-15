@@ -1,4 +1,3 @@
-use core::fmt::{self, Display};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use vsss_rs::Share;
 use zeroize::Zeroize;
@@ -28,15 +27,6 @@ impl From<Share<SECRET_KEY_SHARE_BYTES>> for SecretKeyShare {
 impl<'a> From<&'a Share<SECRET_KEY_SHARE_BYTES>> for SecretKeyShare {
     fn from(share: &'a Share<SECRET_KEY_SHARE_BYTES>) -> Self {
         Self(*share)
-    }
-}
-
-impl Display for SecretKeyShare {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for b in &self.0 .0 {
-            b.fmt(f)?;
-        }
-        Ok(())
     }
 }
 

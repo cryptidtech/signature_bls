@@ -1,6 +1,5 @@
 use crate::PublicKeyVt;
 use bls12_381_plus::{G1Affine, G1Projective};
-use core::fmt::{self, Display};
 use group::Curve;
 use subtle::{Choice, CtOption};
 
@@ -18,11 +17,7 @@ impl From<&[PublicKeyVt]> for MultiPublicKeyVt {
     }
 }
 
-impl Display for MultiPublicKeyVt {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(MultiPublicKeyVt);
 
 serde_impl!(MultiPublicKeyVt, G1Projective);
 

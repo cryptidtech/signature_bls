@@ -1,6 +1,5 @@
 use crate::{MultiPublicKey, PublicKey, Signature};
 use bls12_381_plus::{G1Affine, G1Projective};
-use core::fmt::{self, Display};
 use group::Curve;
 use subtle::{Choice, CtOption};
 
@@ -8,11 +7,7 @@ use subtle::{Choice, CtOption};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MultiSignature(pub G1Projective);
 
-impl Display for MultiSignature {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(MultiSignature);
 
 impl From<&[Signature]> for MultiSignature {
     fn from(sigs: &[Signature]) -> Self {

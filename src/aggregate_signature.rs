@@ -1,6 +1,5 @@
 use crate::{PublicKey, Signature};
 use bls12_381_plus::{G1Affine, G1Projective, G2Affine};
-use core::fmt::{self, Display};
 use group::{Curve, Group};
 use subtle::{Choice, CtOption};
 
@@ -8,11 +7,7 @@ use subtle::{Choice, CtOption};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct AggregateSignature(pub G1Projective);
 
-impl Display for AggregateSignature {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(AggregateSignature);
 
 impl From<&[Signature]> for AggregateSignature {
     fn from(sigs: &[Signature]) -> Self {

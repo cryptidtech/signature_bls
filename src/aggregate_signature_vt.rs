@@ -1,6 +1,5 @@
 use crate::{PublicKeyVt, SignatureVt};
 use bls12_381_plus::{G1Affine, G2Affine, G2Projective};
-use core::fmt::{self, Display};
 use group::{Curve, Group};
 use subtle::{Choice, CtOption};
 
@@ -8,11 +7,7 @@ use subtle::{Choice, CtOption};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct AggregateSignatureVt(pub G2Projective);
 
-impl Display for AggregateSignatureVt {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(AggregateSignatureVt);
 
 impl From<&[SignatureVt]> for AggregateSignatureVt {
     fn from(sigs: &[SignatureVt]) -> Self {

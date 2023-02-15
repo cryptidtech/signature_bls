@@ -3,7 +3,6 @@ use crate::{PartialSignature, ProofOfKnowledge, PublicKey, SecretKey};
 use bls12_381_plus::{
     multi_miller_loop, ExpandMsgXmd, G1Affine, G1Projective, G2Affine, G2Prepared, Scalar,
 };
-use core::fmt::{self, Display};
 use ff::Field;
 use group::{Curve, Group};
 use subtle::{Choice, CtOption};
@@ -13,11 +12,7 @@ use vsss_rs::{Error, Shamir, Share};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct Signature(pub G1Projective);
 
-impl Display for Signature {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(Signature);
 
 serde_impl!(Signature, G1Projective);
 

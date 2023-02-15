@@ -1,6 +1,5 @@
 use super::SecretKey;
 use bls12_381_plus::{G2Affine, G2Projective};
-use core::fmt::{self, Display};
 use group::Curve;
 use subtle::{Choice, CtOption};
 
@@ -8,11 +7,7 @@ use subtle::{Choice, CtOption};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct PublicKey(pub G2Projective);
 
-impl Display for PublicKey {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(PublicKey);
 
 impl From<&SecretKey> for PublicKey {
     fn from(s: &SecretKey) -> Self {

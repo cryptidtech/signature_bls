@@ -58,3 +58,13 @@ macro_rules! serde_impl {
         }
     };
 }
+
+macro_rules! display_one_impl {
+    ($name:ident) => {
+        impl core::fmt::Display for $name {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+                write!(f, "{}", self.0)
+            }
+        }
+    };
+}

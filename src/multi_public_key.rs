@@ -1,6 +1,5 @@
 use crate::PublicKey;
 use bls12_381_plus::{G2Affine, G2Projective};
-use core::fmt::{self, Display};
 use group::Curve;
 use subtle::{Choice, CtOption};
 
@@ -18,11 +17,7 @@ impl From<&[PublicKey]> for MultiPublicKey {
     }
 }
 
-impl Display for MultiPublicKey {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(MultiPublicKey);
 
 serde_impl!(MultiPublicKey, G2Projective);
 

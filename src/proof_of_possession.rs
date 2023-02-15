@@ -2,7 +2,6 @@ use crate::{PublicKey, SecretKey};
 use bls12_381_plus::{
     multi_miller_loop, ExpandMsgXmd, G1Affine, G1Projective, G2Affine, G2Prepared,
 };
-use core::fmt::{self, Display};
 use ff::Field;
 use group::{Curve, Group};
 use subtle::{Choice, CtOption};
@@ -11,11 +10,7 @@ use subtle::{Choice, CtOption};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ProofOfPossession(pub G1Projective);
 
-impl Display for ProofOfPossession {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.0.fmt(f)
-    }
-}
+display_one_impl!(ProofOfPossession);
 
 serde_impl!(ProofOfPossession, G1Projective);
 

@@ -1,5 +1,6 @@
 use crate::{PublicKey, Signature};
 use bls12_381_plus::{multi_miller_loop, G1Projective, G2Affine, G2Prepared, Scalar};
+use core::fmt::{self, Display, Formatter};
 use ff::Field;
 use group::{Curve, Group};
 use serde::{Deserialize, Serialize};
@@ -12,6 +13,12 @@ pub struct ProofOfKnowledge {
     pub u: G1Projective,
     /// V = -(x + y)((s - \alpha)\cdot A + \alpha \cdot A)
     pub v: G1Projective,
+}
+
+impl Display for ProofOfKnowledge {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{{ u: {}, v: {} }}", self.u, self.v)
+    }
 }
 
 impl ConditionallySelectable for ProofOfKnowledge {
