@@ -2,7 +2,6 @@ use crate::{PublicKeyVt, SignatureVt};
 use bls12_381_plus::{G1Affine, G2Affine, G2Projective};
 use core::fmt::{self, Display};
 use group::{Curve, Group};
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// Represents a BLS signature in G1 for multiple signatures that signed the different messages
@@ -25,24 +24,7 @@ impl From<&[SignatureVt]> for AggregateSignatureVt {
     }
 }
 
-impl Serialize for AggregateSignatureVt {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.0.serialize(s)
-    }
-}
-
-impl<'de> Deserialize<'de> for AggregateSignatureVt {
-    fn deserialize<D>(d: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let p = G2Projective::deserialize(d)?;
-        Ok(Self(p))
-    }
-}
+serde_impl!(AggregateSignatureVt, G2Projective);
 
 cond_select_impl!(AggregateSignatureVt, G2Projective);
 

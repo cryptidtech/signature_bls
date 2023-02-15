@@ -2,7 +2,6 @@ use super::SecretKey;
 use bls12_381_plus::{G2Affine, G2Projective};
 use core::fmt::{self, Display};
 use group::Curve;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// A BLS public key
@@ -33,24 +32,7 @@ impl<'a> From<&'a PublicKey> for [u8; PublicKey::BYTES] {
     }
 }
 
-impl Serialize for PublicKey {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.0.serialize(s)
-    }
-}
-
-impl<'de> Deserialize<'de> for PublicKey {
-    fn deserialize<D>(d: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let p = G2Projective::deserialize(d)?;
-        Ok(Self(p))
-    }
-}
+serde_impl!(PublicKey, G2Projective);
 
 cond_select_impl!(PublicKey, G2Projective);
 

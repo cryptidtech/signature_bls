@@ -6,7 +6,6 @@ use bls12_381_plus::{
 use core::fmt::{self, Display};
 use ff::Field;
 use group::{Curve, Group};
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 use vsss_rs::{Error, Shamir, Share};
 
@@ -20,24 +19,7 @@ impl Display for Signature {
     }
 }
 
-impl Serialize for Signature {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.0.serialize(s)
-    }
-}
-
-impl<'de> Deserialize<'de> for Signature {
-    fn deserialize<D>(d: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let p = G1Projective::deserialize(d)?;
-        Ok(Self(p))
-    }
-}
+serde_impl!(Signature, G1Projective);
 
 cond_select_impl!(Signature, G1Projective);
 

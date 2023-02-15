@@ -35,3 +35,26 @@ macro_rules! cond_select_impl {
         }
     };
 }
+
+macro_rules! serde_impl {
+    ($name:ident, $projective:ident) => {
+        impl serde::Serialize for $name {
+            fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
+            where
+                S: serde::Serializer,
+            {
+                self.0.serialize(s)
+            }
+        }
+
+        impl<'de> serde::Deserialize<'de> for $name {
+            fn deserialize<D>(d: D) -> Result<Self, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                let p = $projective::deserialize(d)?;
+                Ok(Self(p))
+            }
+        }
+    };
+}

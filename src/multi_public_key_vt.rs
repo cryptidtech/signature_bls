@@ -2,7 +2,6 @@ use crate::PublicKeyVt;
 use bls12_381_plus::{G1Affine, G1Projective};
 use core::fmt::{self, Display};
 use group::Curve;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// Represents multiple public keys into one that can be used to verify multisignatures
@@ -25,24 +24,7 @@ impl Display for MultiPublicKeyVt {
     }
 }
 
-impl Serialize for MultiPublicKeyVt {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.0.serialize(s)
-    }
-}
-
-impl<'de> Deserialize<'de> for MultiPublicKeyVt {
-    fn deserialize<D>(d: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let p = G1Projective::deserialize(d)?;
-        Ok(Self(p))
-    }
-}
+serde_impl!(MultiPublicKeyVt, G1Projective);
 
 cond_select_impl!(MultiPublicKeyVt, G1Projective);
 

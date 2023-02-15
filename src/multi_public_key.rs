@@ -2,7 +2,6 @@ use crate::PublicKey;
 use bls12_381_plus::{G2Affine, G2Projective};
 use core::fmt::{self, Display};
 use group::Curve;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::{Choice, CtOption};
 
 /// Represents multiple public keys into one that can be used to verify multisignatures
@@ -25,24 +24,7 @@ impl Display for MultiPublicKey {
     }
 }
 
-impl Serialize for MultiPublicKey {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.0.serialize(s)
-    }
-}
-
-impl<'de> Deserialize<'de> for MultiPublicKey {
-    fn deserialize<D>(d: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let p = G2Projective::deserialize(d)?;
-        Ok(Self(p))
-    }
-}
+serde_impl!(MultiPublicKey, G2Projective);
 
 cond_select_impl!(MultiPublicKey, G2Projective);
 

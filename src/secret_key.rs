@@ -3,7 +3,6 @@ use bls12_381_plus::Scalar;
 use core::mem::MaybeUninit;
 use hkdf::HkdfExtract;
 use rand_core::{CryptoRng, RngCore};
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use subtle::CtOption;
 use vsss_rs::{Error, Shamir, Share};
 use zeroize::Zeroize;
@@ -11,15 +10,9 @@ use zeroize::Zeroize;
 /// The secret key is field element 0 < `x` < `r`
 /// where `r` is the curve order. See Section 4.3 in
 /// <https://eprint.iacr.org/2016/663.pdf>
-#[derive(Clone, Debug, Eq, PartialEq, Zeroize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, Zeroize)]
 #[zeroize(drop)]
 pub struct SecretKey(pub Scalar);
-
-impl Default for SecretKey {
-    fn default() -> Self {
-        Self(Scalar::ZERO)
-    }
-}
 
 impl From<SecretKey> for [u8; SecretKey::BYTES] {
     fn from(sk: SecretKey) -> [u8; SecretKey::BYTES] {
@@ -33,24 +26,7 @@ impl<'a> From<&'a SecretKey> for [u8; SecretKey::BYTES] {
     }
 }
 
-impl Serialize for SecretKey {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.0.serialize(s)
-    }
-}
-
-impl<'de> Deserialize<'de> for SecretKey {
-    fn deserialize<D>(d: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let scalar = Scalar::deserialize(d)?;
-        Ok(Self(scalar))
-    }
-}
+serde_impl!(SecretKey, Scalar);
 
 impl SecretKey {
     /// Number of bytes needed to represent the secret key
