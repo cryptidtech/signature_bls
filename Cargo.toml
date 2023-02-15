@@ -15,10 +15,7 @@ categories = [
     "algorithms",
 ]
 keywords = ["crypto", "signature", "signing", "bls"]
-description = """The Cryptid BLS signature impementation.
-"""
-publish = true
-rust-version = "1.65.0"
+description = """The Cryptid BLS signature impementation."""
 
 [features]
 default = ["std"]
