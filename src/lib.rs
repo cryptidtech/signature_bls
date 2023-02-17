@@ -68,7 +68,9 @@ pub use secret_key::*;
 pub use secret_key_share::*;
 pub use signature::*;
 pub use signature_vt::*;
-pub extern crate vsss_rs;
+
+pub use bls12_381_plus;
+pub use vsss_rs;
 
 #[cfg(test)]
 pub struct MockRng(rand_xorshift::XorShiftRng);
