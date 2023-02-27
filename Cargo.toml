@@ -34,7 +34,7 @@ rand_core = "0.6"
 serde = { version = "1.0", default-features = false, features = ["derive"] }
 sha2 = { version = "0.9", default-features = false }
 subtle = { version = "2.4", default-features = false }
-vsss-rs = { version = "2.4.0-pre0", default-features = false, features = ["elliptic-curve"] }
+vsss-rs = { version = "2.7.0", default-features = false, features = ["elliptic-curve"] }
 zeroize = { version = "1.5", features = ["zeroize_derive"] }
 
 [dev-dependencies]
